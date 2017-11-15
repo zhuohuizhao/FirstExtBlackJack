@@ -1,0 +1,70 @@
+#include <iostream>
+
+using namespace std;
+
+int CardValue( char m_card)       // convert the card to value
+{
+    switch (toupper(m_card))
+    {
+        case 'A':
+            {return 11; break;}
+        case 'T' :
+            {return 10; break;}
+        case 'J':
+            {return 10; break;}
+        case 'Q':
+            {return 10; break;}
+        default:
+            {return (m_card - '0'); break;}
+
+    }
+
+}
+void CaculateCard(int limit)            // caculate the card score
+{
+    char Cards[5];
+    int Score = 0;
+    int countA = 0;
+    bool wrongCard = true;
+    cout << "please input Card " << endl;
+
+    for (int i = 0; i < limit; i++)
+        {
+            cin >>  Cards[i];
+            if (CardValue(Cards[i]) >= 18)          //To determine whether the wrong data
+                wrongCard = false;
+            if (CardValue(Cards[i]) == 11)          // count Number of A inputing times
+                countA ++;
+            Score = CardValue(Cards[i]) + Score;    //caculate
+            if  (countA > 0 && Score > 21)
+            {
+                Score = Score - 10;                 // if score more than 21 and include A ,minus 10
+                countA --;
+            }
+        }
+    if (wrongCard)
+        if(Score <= 21)
+            cout << "the last Score is " << Score << endl;
+            else
+                cout << "busted" << endl;
+        else
+            cout << "Wrong input data " << endl;
+}
+int main()
+{
+    int CardNumber = 0;
+    int countGame = 0;                              //count times to play game
+    while (CardNumber != -99)
+    {
+
+        cout << "startGame " << ++ countGame << endl;
+        cout << "please input CardNumber(2-5)" << endl;
+        cin >> CardNumber;
+        if (CardNumber>=2 && CardNumber <=5)
+                CaculateCard(CardNumber);
+            else cout << "you input wrong number " << endl;
+
+    }
+    cout << "Finished" << endl;
+    return 0;
+}
